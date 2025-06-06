@@ -125,11 +125,12 @@ jspm_packages/
 *.temp
 
 # Project specific
-data/gameinfo.csv
-data/moves.csv
-data/chess_training_data.json
-data/move_frequency_analysis.json
-data/move_frequency_analysis.txt
+# 注意：数据文件现在使用Git LFS管理，不再忽略
+# data/gameinfo.csv
+# data/moves.csv
+# data/chess_training_data.json
+# data/move_frequency_analysis.json
+# data/move_frequency_analysis.txt
 ai_chess/data/processed/state_action_pairs.json
 *.json.bak
 test_*.py
