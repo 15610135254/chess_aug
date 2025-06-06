@@ -134,14 +134,10 @@ class ChessBoard:
                 # 在该位置标记棋子的当前坐标
                 board_positions[pos_index] = f"{x:01d}{y:01d}"
 
-        result = "".join(board_positions)
-        print(f"DEBUG to_string: 生成棋盘状态长度={len(result)}, 内容前50字符={result[:50]}")
-        return result
+        return "".join(board_positions)
     
     def load_from_string(self, board_string):
         # 从180字符的棋盘状态字符串加载棋盘（与spark_chess_analysis.py兼容）
-        print(f"DEBUG load_from_string: 输入棋盘状态长度={len(board_string)}, 前50字符={board_string[:50]}")
-
         if len(board_string) != 180:
             raise ValueError("棋盘字符串长度必须为180字符")
 
@@ -155,8 +151,6 @@ class ChessBoard:
         for i in range(0, 180, 2):
             board_positions.append(board_string[i:i+2])
 
-        print(f"DEBUG load_from_string: 解析出{len(board_positions)}个位置")
-
         # 收集所有棋盘上的棋子位置
         pieces_on_board = []
         for pos_index, piece_coord in enumerate(board_positions):
@@ -166,11 +160,8 @@ class ChessBoard:
                     y = int(piece_coord[1])
                     if 0 <= x < 9 and 0 <= y < 10:
                         pieces_on_board.append((x, y))
-                        print(f"DEBUG load_from_string: 发现棋子在位置 ({x},{y})")
                 except (ValueError, IndexError):
                     continue
-
-        print(f"DEBUG load_from_string: 棋盘上共有{len(pieces_on_board)}个棋子")
 
         # 重新创建棋子列表，基于实际棋盘状态
         self.pieces = []
