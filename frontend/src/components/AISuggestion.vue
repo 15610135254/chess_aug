@@ -181,12 +181,26 @@ const formatDetailedMove = (move) => {
   if (!piece) return '无效走法'
   
   // 计算移动方向和距离
-  const direction = toY > fromY ? '进' : toY < fromY ? '退' : '平'
-  const steps = direction === '平' ? (toX + 1) : Math.abs(toY - fromY)
-  
-  // 棋子位置描述 (从左到右为1-9)
-  const position = fromX + 1
-  
+  const isRed = piece.type === 'red'
+
+  // 根据棋子颜色确定进退方向
+  let direction
+  if (toY === fromY) {
+    direction = '平'
+  } else if (isRed ? toY < fromY : toY > fromY) {
+    direction = '进'
+  } else {
+    direction = '退'
+  }
+
+  // 步数或目标列
+  const steps = direction === '平'
+    ? (isRed ? toX + 1 : 9 - toX)
+    : Math.abs(toY - fromY)
+
+  // 棋子起始列描述 (从己方视角1-9)
+  const position = isRed ? fromX + 1 : 9 - fromX
+
   return `${piece.name}${position}${direction}${steps}`
 }
 
