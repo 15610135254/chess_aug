@@ -29,7 +29,7 @@ export function useChessGame() {
       const response = await chessAPI.initBoard()
       if (response.status === 'success') {
         boardString.value = response.board
-        parseBoardString(response.board)
+        parseBoardString(response.board, response.pieces)
         currentPlayer.value = 'red'
         selectedPiece.value = null
         gameOver.value = false
@@ -48,12 +48,29 @@ export function useChessGame() {
   }
 
   // 解析棋盘字符串（180字符格式：9列×10行×2字符每位置）
-  const parseBoardString = (boardStr) => {
+  const parseBoardString = (boardStr, pieceData = null) => {
     pieces.length = 0
 
+    if (pieceData && Array.isArray(pieceData)) {
+      pieceData.forEach(p => {
+        const isRed = p.type === 'red'
+        pieces.push({
+          id: `${p.type}_${p.x}_${p.y}`,
+          name: p.name,
+          x: p.x,
+          y: p.y,
+          type: p.type,
+          color: isRed ? '#d32f2f' : '#1976d2',
+          bgcolor: isRed ? '#ffebee' : '#e3f2fd',
+          bgColor_b: isRed ? '#d32f2f' : '#1976d2'
+        })
+      })
+      return
+    }
+
     // 验证棋盘字符串长度
-    if (boardStr.length !== 180) {
-      console.error('棋盘字符串长度错误，期望180字符，实际:', boardStr.length)
+    if (!boardStr || boardStr.length !== 180) {
+      console.error('棋盘字符串长度错误，期望180字符，实际:', boardStr ? boardStr.length : 0)
       return
     }
 
@@ -165,7 +182,7 @@ export function useChessGame() {
         console.log('DEBUG movePiece: 移动前棋子数量:', pieces.length)
 
         boardString.value = response.board
-        parseBoardString(response.board)
+        parseBoardString(response.board, response.pieces)
 
         console.log('DEBUG movePiece: 解析后棋子数量:', pieces.length)
 
@@ -243,7 +260,7 @@ export function useChessGame() {
 
         // 更新棋盘状态
         boardString.value = response.new_board
-        parseBoardString(response.new_board)
+        parseBoardString(response.new_board, response.pieces)
 
         console.log('DEBUG makeAIMove: 更新后棋子数量:', pieces.length)
 

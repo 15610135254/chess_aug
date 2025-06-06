@@ -85,6 +85,7 @@ def move_piece():
         response_data = {
             'status': 'success',
             'board': new_board_string,
+            'pieces': board.to_piece_list(),
             'message': '移动成功',
             'game_over': move_result['game_over'],
             'winner': move_result['winner']
@@ -113,6 +114,7 @@ def init_board():
         return jsonify({
             'status': 'success',
             'board': board_string,
+            'pieces': board.to_piece_list(),
             'message': '棋盘初始化成功'
         })
         

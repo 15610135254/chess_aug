@@ -135,6 +135,18 @@ class ChessBoard:
                 board_positions[pos_index] = f"{x:01d}{y:01d}"
 
         return "".join(board_positions)
+
+    def to_piece_list(self):
+        """返回当前棋子的简单列表，用于前端显示"""
+        piece_list = []
+        for p in self.pieces:
+            piece_list.append({
+                'name': p['name'],
+                'x': p['x'],
+                'y': p['y'],
+                'type': p['type']
+            })
+        return piece_list
     
     def load_from_string(self, board_string):
         # 从180字符的棋盘状态字符串加载棋盘（与spark_chess_analysis.py兼容）

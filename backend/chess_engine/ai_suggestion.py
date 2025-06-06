@@ -233,6 +233,7 @@ class AIChessSuggestionEngine:
                 'message': f'{player}方AI移动完成',
                 'original_board': board_state,
                 'new_board': new_board_state,
+                'pieces': board.to_piece_list(),
                 'move_executed': best_move,
                 'move_description': suggestion_result['suggestions'][0]['description'],
                 'frequency': suggestion_result['suggestions'][0]['frequency'],
